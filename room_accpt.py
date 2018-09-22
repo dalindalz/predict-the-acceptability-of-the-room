@@ -11,16 +11,18 @@ def read_data_from_csv():
 
     return dataset
 
-
+# replace all na with mean of the feature
 def replace_na_with_mean(column_name, data,mean):
     data[[column_name]] = data[[column_name]].fillna(mean)
     return data
 
+# Read data from csv and return the data in table format in orange programming
 
 def read_csv_table():
     data_table = Table.from_file('assign_clean.csv')
     return data_table
 
+# Prepare class variables and feature variable
 
 def prepro_class_variable(data_table):
     feature_variable = data_table[:,
@@ -30,6 +32,8 @@ def prepro_class_variable(data_table):
     data_table = Table.from_table(domain=room_domain, source=data_table)
     return data_table
 
+# Prepare training data
+
 def prepare_train_test(data_table):
     random.shuffle(data_table)
     value = int(0.8 * len(data_table))
@@ -37,6 +41,7 @@ def prepare_train_test(data_table):
     test_dataset = data_table[value:]
     return train_dataset, test_dataset
 
+# Decision tree with orange programming
 
 def build_decision_tree(max_leaf=None):
     tree_learner = SklTreeLearner(max_leaf_nodes=max_leaf)
@@ -44,6 +49,7 @@ def build_decision_tree(max_leaf=None):
     print(decision_tree)
     return tree_learner, decision_tree
 
+# Predict accuarcy of the model
 
 def predict_cal_acc(test_dataset, data_table, tree_learner):
     y_pred = decision_tree(test_dataset)
